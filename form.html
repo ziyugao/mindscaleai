@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mindscale AI: join the waitlist or book a demo</title>
+<meta name="description" content="Join the Mindscale AI waitlist for QuickQual Assist, or book a demo for your team. Free for clinicians.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue-dark:#0F1830; --blue-base:#3962D0; --blue-light:#DCE5F8;
+    --gray-950:#0E121B; --gray-600:#525866; --gray-500:#717784; --gray-400:#99A0AE;
+    --gray-300:#CACFD8; --gray-200:#EAECF0; --gray-100:#F2F5F8; --gray-50:#F5F7FA;
+    --green-base:#2E9E36; --green-light:#F0FAF4;
+    --yellow-base:#EFE96E;
+    --paper:#F6F6F4;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:var(--paper)}
+  body{font-family:'Inter',-apple-system,sans-serif;color:var(--gray-950);-webkit-font-smoothing:antialiased}
+  img{display:block}
+  a{color:inherit}
+
+  /* Signature motifs, same system as the landing page */
+  .hl{position:relative;display:inline-block;z-index:0}
+  .hl::after{content:"";position:absolute;left:-.06em;right:-.06em;bottom:.08em;height:.42em;
+    background:var(--yellow-base);border-radius:2px;z-index:-1;transform:skewX(-2deg)}
+  .mono-label{font-family:'IBM Plex Mono',ui-monospace,monospace;font-weight:500;font-size:12px;
+    line-height:16px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-500)}
+
+  /* Nav: same bar as the landing page, minus the scroll animation */
+  nav{display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,10vw,144px);height:120px;max-width:1440px;margin:0 auto}
+  .brand{display:flex;align-items:center;gap:12.8px;text-decoration:none}
+  .brand img{height:32px;width:auto}
+  .brand span{font-weight:700;font-size:23.467px;letter-spacing:-0.47px;color:var(--blue-dark)}
+  .nav-links{display:flex;gap:8px;align-items:center}
+  .nav-right{display:flex;gap:8px;align-items:center}
+  /* Inert on this page: same look, no navigation, no hover affordance */
+  .nav-link.is-static{cursor:default}
+  .nav-link.is-static:hover{opacity:.6;background:transparent}
+  .brand{cursor:pointer}
+  /* --- Hamburger --- */
+  .nav-burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;
+    padding:0 10px;border:none;background:transparent;cursor:pointer;border-radius:10px}
+  .nav-burger:hover{background:rgba(15,24,48,.06)}
+  .nav-burger:focus-visible{outline:2px solid var(--blue-base);outline-offset:2px}
+  .nav-burger span{display:block;height:2px;width:100%;background:var(--blue-dark);border-radius:2px;
+    transition:transform .25s cubic-bezier(.22,1,.36,1),opacity .2s ease}
+  .nav-burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .nav-burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .nav-menu{display:none;flex-direction:column;gap:4px;width:calc(100% - 32px);
+    max-width:1440px;margin:0 auto;padding:12px;background:#fff;
+    border:1px solid rgba(15,24,48,.08);border-radius:20px;box-shadow:0 12px 32px rgba(15,24,48,.14)}
+  .nav-menu[hidden]{display:none}
+  .nav-menu.open{display:flex}
+  .nav-menu-link{padding:14px 16px;border-radius:12px;text-decoration:none;color:var(--gray-950);
+    font-size:16px;font-weight:500}
+  .nav-menu-link.is-static{color:var(--gray-500);cursor:default}
+  .nav-menu-ctas{display:flex;flex-direction:column;gap:8px;padding:8px 4px 4px;
+    border-top:1px solid var(--gray-200);margin-top:6px}
+  .nav-menu-ctas .btn-dark,.nav-menu-ctas .btn-quiet{justify-content:center;width:100%}
+  .nav-link{display:flex;align-items:center;height:56px;padding:12px 24px;border-radius:999px;
+    font-size:13px;letter-spacing:-0.078px;color:var(--gray-950);opacity:.6;text-decoration:none;
+    transition:opacity .15s ease,background .15s ease}
+  .nav-link:hover{opacity:1;background:var(--gray-50)}
+
+  /* Buttons: one system, primary + quiet */
+  .btn-dark{display:inline-flex;align-items:center;justify-content:center;background:var(--blue-dark);
+    color:#fff;font-weight:500;font-size:14px;letter-spacing:-0.084px;padding:12px 20px;border:1px solid var(--blue-dark);
+    border-radius:999px;text-decoration:none;cursor:pointer;
+    transition:transform .15s ease,box-shadow .15s ease}
+  .btn-dark:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(15,24,48,.22)}
+  .btn-quiet{display:inline-flex;align-items:center;justify-content:center;background:transparent;
+    color:var(--blue-dark);font-weight:500;font-size:14px;letter-spacing:-0.084px;padding:12px 20px;
+    border:1px solid var(--gray-300);border-radius:999px;text-decoration:none;cursor:pointer;
+    transition:transform .15s ease,border-color .15s ease,background .15s ease}
+  .btn-quiet:hover{transform:translateY(-1px);border-color:var(--blue-dark);background:rgba(15,24,48,.04)}
+  .btn-dark:focus-visible,.btn-quiet:focus-visible,.tab:focus-visible{outline:2px solid var(--blue-base);outline-offset:2px}
+
+  /* Page shell */
+  .wrap{max-width:1440px;margin:0 auto;padding:24px 144px 96px;display:flex;flex-direction:column;
+    align-items:center;gap:40px}
+  .page-head{display:flex;flex-direction:column;gap:16px;align-items:center;text-align:center;max-width:640px}
+  .page-head h1{font-weight:600;font-size:48px;line-height:56px;letter-spacing:-0.48px;color:var(--blue-dark)}
+  .page-head p{font-size:18px;line-height:28px;letter-spacing:-0.27px;color:var(--gray-600)}
+
+  /* Two clearly labeled paths */
+  .tabs{display:flex;gap:8px;background:var(--gray-100);border-radius:999px;padding:6px}
+  .tab{border:none;background:transparent;font-family:inherit;font-weight:500;font-size:14px;
+    letter-spacing:-0.084px;color:var(--gray-600);padding:12px 28px;border-radius:999px;cursor:pointer;
+    transition:background .15s ease,color .15s ease}
+  .tab[aria-selected="true"]{background:#fff;color:var(--blue-dark);box-shadow:0 2px 8px rgba(15,24,48,.08)}
+
+  /* One card system */
+  .card{width:100%;max-width:640px;background:#fff;border:1px solid var(--gray-200);border-radius:24px;
+    padding:40px;box-shadow:0 4px 16px rgba(15,24,48,.04)}
+  .card h2{font-weight:600;font-size:28px;line-height:36px;letter-spacing:-0.28px;color:var(--blue-dark)}
+  .card .sub{font-size:16px;line-height:24px;letter-spacing:-0.176px;color:var(--gray-600);margin-top:8px}
+  .fields{display:flex;flex-direction:column;gap:20px;margin-top:28px}
+  .field{display:flex;flex-direction:column;gap:8px}
+  .field label{font-weight:500;font-size:14px;line-height:20px;color:var(--blue-dark)}
+  .field .opt{color:var(--gray-400);font-weight:400}
+  .field input,.field select,.field textarea{font-family:inherit;font-size:15px;line-height:22px;
+    color:var(--gray-950);background:#fff;border:1px solid var(--gray-300);border-radius:10px;
+    padding:12px 14px;width:100%;transition:border-color .15s ease,box-shadow .15s ease}
+  .field textarea{min-height:96px;resize:vertical}
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--blue-base);
+    box-shadow:0 0 0 3px rgba(57,98,208,.14)}
+  .field input:invalid:not(:placeholder-shown){border-color:#C3382F}
+
+  /* Required notice, not optional */
+  .notice{display:flex;gap:10px;align-items:flex-start;background:var(--blue-light);
+    border-radius:10px;padding:12px 14px;margin-top:24px}
+  .notice svg{flex-shrink:0;margin-top:1px}
+  .notice p{font-size:13px;line-height:19px;color:var(--blue-dark);font-weight:500}
+
+  .actions{margin-top:28px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .form-foot{margin-top:16px;font-size:12px;line-height:18px;color:var(--gray-400)}
+
+  /* Confirmation state */
+  .confirm{display:none;flex-direction:column;gap:12px;align-items:flex-start}
+  .confirm.show{display:flex}
+  .confirm .tick{width:44px;height:44px;border-radius:50%;background:var(--green-light);
+    display:flex;align-items:center;justify-content:center}
+  .confirm h2{font-weight:600;font-size:24px;line-height:32px;color:var(--blue-dark)}
+  .confirm p{font-size:16px;line-height:24px;color:var(--gray-600)}
+  .panel[hidden]{display:none}
+
+  footer{background:var(--blue-dark);color:#fff;padding:56px 144px;margin-top:40px}
+  .foot-in{max-width:1152px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+  .foot-in a{color:rgba(255,255,255,.6);text-decoration:none;font-size:14px}
+  .foot-in a:hover{color:#fff}
+  .foot-legal{font-size:11px;line-height:16px;color:rgba(255,255,255,.38);max-width:900px;margin-top:8px}
+  .foot-links{display:flex;gap:20px;align-items:center}
+  .copy{font-size:12px;color:rgba(255,255,255,.56)}
+
+  @media (max-width:1100px){ .nav-links{display:none} .nav-burger{display:flex} }
+  @media (max-width:900px){
+    nav{height:96px}
+    .wrap{padding:16px 24px 64px}
+    .page-head h1{font-size:34px;line-height:42px}
+    .card{padding:28px}
+    footer{padding:40px 24px}
+  }
+  @media (max-width:640px){
+    nav{height:76px;padding:0 16px}
+    .brand img{height:26px}
+    .brand span{font-size:18px}
+    .nav-right .nav-link{display:none}
+    .page-head h1{font-size:28px;line-height:36px}
+    .page-head p{font-size:16px;line-height:24px}
+    .tabs{width:100%}
+    .tab{flex:1;padding:12px 8px;font-size:13px}
+    .card{padding:20px;border-radius:18px}
+    .actions{flex-direction:column;align-items:stretch}
+    .actions .btn-dark{width:100%}
+    .foot-links{flex-wrap:wrap;gap:12px}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important}
+  }
+</style>
+</head>
+<body>
+
+<!-- Same nav as the homepage. Static here: no shrink-on-scroll behaviour. -->
+<nav>
+  <a class="brand" href="index.html">
+    <img src="assets/logo-mark.svg" alt="Mindscale AI logo">
+    <span>Mindscale AI</span>
+  </a>
+  <!-- Section tabs return to the matching section on the homepage -->
+  <div class="nav-links">
+    <a class="nav-link" href="index.html#for-clinicians">For Clinicians</a>
+    <a class="nav-link" href="index.html#products">Products</a>
+    <a class="nav-link" href="index.html#how-it-works">How it works</a>
+    <a class="nav-link" href="index.html#why-clinicians">Why Mindscale AI</a>
+  </div>
+  <div class="nav-right">
+    <a class="nav-link" href="#demo">Book a demo</a>
+    <a class="btn-dark" href="#waitlist">Join the waitlist</a>
+    <button class="nav-burger" id="navBurger" type="button"
+            aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<!-- Mobile menu. Section names stay inert here, same as the desktop bar. -->
+<div class="nav-menu" id="navMenu" hidden>
+  <a class="nav-menu-link" href="index.html#for-clinicians">For Clinicians</a>
+  <a class="nav-menu-link" href="index.html#products">Products</a>
+  <a class="nav-menu-link" href="index.html#how-it-works">How it works</a>
+  <a class="nav-menu-link" href="index.html#why-clinicians">Why Mindscale AI</a>
+  <div class="nav-menu-ctas">
+    <a class="btn-dark" href="#waitlist">Join the waitlist</a>
+    <a class="btn-quiet" href="#demo">Book a demo</a>
+    <a class="btn-quiet" href="index.html">Back to homepage</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="page-head">
+    <div class="mono-label">Free for clinicians.</div>
+    <h1>Get started with <span class="hl">QuickQual</span>.</h1>
+    <p>Clinicians join the waitlist. Teams and Life Sciences partners book a demo.</p>
+  </div>
+
+  <div class="tabs" role="tablist" aria-label="Choose a path">
+    <button class="tab" id="tab-waitlist" role="tab" aria-selected="true" aria-controls="panel-waitlist">Join the waitlist</button>
+    <button class="tab" id="tab-demo" role="tab" aria-selected="false" aria-controls="panel-demo">Book a demo</button>
+  </div>
+
+  <!-- ============ WAITLIST PATH: the light ask, three fields ============ -->
+  <section class="card panel" id="panel-waitlist" role="tabpanel" aria-labelledby="tab-waitlist">
+    <div class="form-state">
+      <h2>Be first in line.</h2>
+      <p class="sub">QuickQual Assist is rolling out to clinicians through our partner platforms. The waitlist hears first.</p>
+
+      <form id="waitlist-form" novalidate>
+        <div class="fields">
+          <div class="field">
+            <label for="w-email">Work email</label>
+            <input type="email" id="w-email" name="email" placeholder="you@practice.org" required autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="w-role">Role</label>
+            <select id="w-role" name="role" required>
+              <option value="" selected disabled>Select your role</option>
+              <option>Physician</option>
+              <option>Nurse or NP or PA</option>
+              <option>Clinical Operations</option>
+              <option>Practice Manager</option>
+              <option>Health System Leader</option>
+              <option>Life Sciences / Patient Access</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="w-specialty">Specialty <span class="opt">(optional)</span></label>
+            <input type="text" id="w-specialty" name="specialty" placeholder="Cardiology, endocrinology, ...">
+          </div>
+        </div>
+
+        <div class="notice">
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="#0F1830" stroke-width="1.4"/><path d="M8 4.6v4.2" stroke="#0F1830" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.2" r=".9" fill="#0F1830"/></svg>
+          <p>Please do not include any patient information in this form.</p>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn-dark">Join the waitlist</button>
+          <span class="mono-label">No cost, no spam, just your invite.</span>
+        </div>
+      </form>
+    </div>
+
+    <div class="confirm" id="waitlist-confirm" role="status" aria-live="polite">
+      <div class="tick"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.2 4.2L19 7" stroke="#2E9E36" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h2>You are on the list.</h2>
+      <p>We will only email you about access.</p>
+    </div>
+  </section>
+
+  <!-- ============ DEMO PATH: the fuller ask ============ -->
+  <section class="card panel" id="panel-demo" role="tabpanel" aria-labelledby="tab-demo" hidden>
+    <div class="form-state">
+      <h2>Book a demo.</h2>
+      <p class="sub">For clinical operations teams, health systems, and Life Sciences partners working in patient access.</p>
+
+      <form id="demo-form" novalidate>
+        <div class="fields">
+          <div class="field">
+            <label for="d-name">Name</label>
+            <input type="text" id="d-name" name="name" placeholder="Your name" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="d-email">Work email</label>
+            <input type="email" id="d-email" name="email" placeholder="you@organization.com" required autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="d-org">Organization</label>
+            <input type="text" id="d-org" name="organization" placeholder="Practice, health system, or company" required autocomplete="organization">
+          </div>
+          <div class="field">
+            <label for="d-role">Role</label>
+            <select id="d-role" name="role" required>
+              <option value="" selected disabled>Select your role</option>
+              <option>Physician</option>
+              <option>Nurse or NP or PA</option>
+              <option>Clinical Operations</option>
+              <option>Practice Manager</option>
+              <option>Health System Leader</option>
+              <option>Life Sciences / Patient Access</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="d-specialty">Specialty <span class="opt">(optional)</span></label>
+            <input type="text" id="d-specialty" name="specialty" placeholder="Cardiology, endocrinology, ...">
+          </div>
+          <div class="field">
+            <label for="d-goal">What are you hoping to solve? <span class="opt">(optional)</span></label>
+            <textarea id="d-goal" name="goal" placeholder="A sentence or two is plenty."></textarea>
+          </div>
+        </div>
+
+        <div class="notice">
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="none" stroke="#0F1830" stroke-width="1.4"/><path d="M8 4.6v4.2" stroke="#0F1830" stroke-width="1.6" stroke-linecap="round"/><circle cx="8" cy="11.2" r=".9" fill="#0F1830"/></svg>
+          <p>Please do not include any patient information in this form.</p>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn-dark">Book a demo</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="confirm" id="demo-confirm" role="status" aria-live="polite">
+      <div class="tick"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.2 4.2L19 7" stroke="#2E9E36" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <h2>Thanks, we have your request.</h2>
+      <p>We will be in touch to find a time.</p>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="foot-in">
+    <div style="font-weight:700;font-size:17.6px;letter-spacing:-0.35px">Mindscale AI</div>
+    <div class="mono-label" style="color:rgba(255,255,255,.5)">Free for clinicians.</div>
+    <div class="foot-links">
+      <a href="mailto:hello@mindscale.ai">hello@mindscale.ai</a>
+      <a href="https://www.linkedin.com/company/mindscale-ai" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+    </div>
+    <span class="copy">© 2026 Mindscale AI</span>
+    <!-- PLACEHOLDER legal line: replace with counsel-approved wording before launch -->
+    <p class="foot-legal">Placeholder legal line. Mindscale AI is a HIPAA compliant company. This form is for general contact only and must not be used to submit patient information. Replace this paragraph with counsel-approved wording before launch.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // --- Mobile menu ---
+  var burger = document.getElementById('navBurger');
+  var navMenu = document.getElementById('navMenu');
+  if (burger && navMenu){
+    var setMenu = function(open){
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      navMenu.hidden = !open;
+      navMenu.classList.toggle('open', open);
+    };
+    burger.addEventListener('click', function(){
+      setMenu(burger.getAttribute('aria-expanded') !== 'true');
+    });
+    navMenu.addEventListener('click', function(e){ if (e.target.closest('a')) setMenu(false); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setMenu(false); });
+    window.addEventListener('resize', function(){
+      if (window.innerWidth > 1100) setMenu(false);
+    }, { passive: true });
+  }
+
+  // --- Two labeled paths. Deep links: form.html#waitlist and form.html#demo ---
+  var tabs = {
+    waitlist: { tab: document.getElementById('tab-waitlist'), panel: document.getElementById('panel-waitlist') },
+    demo:     { tab: document.getElementById('tab-demo'),     panel: document.getElementById('panel-demo') }
+  };
+
+  function select(name){
+    Object.keys(tabs).forEach(function(k){
+      var isOn = (k === name);
+      tabs[k].tab.setAttribute('aria-selected', isOn ? 'true' : 'false');
+      tabs[k].panel.hidden = !isOn;
+    });
+    if (history.replaceState) history.replaceState(null, '', '#' + name);
+  }
+
+  Object.keys(tabs).forEach(function(k){
+    tabs[k].tab.addEventListener('click', function(){ select(k); });
+  });
+
+  // Honour the hash every CTA on the site sends us
+  var hash = (location.hash || '').replace('#','');
+  select(tabs[hash] ? hash : 'waitlist');
+  window.addEventListener('hashchange', function(){
+    var h = (location.hash || '').replace('#','');
+    if (tabs[h]) select(h);
+  });
+
+  // --- Submission ---
+  // TODO(before launch): point these at the real endpoint so submissions land
+  // somewhere we control and waitlist vs demo are distinguishable. Framer's
+  // native form component or a POST to our own backend. No third-party sheet.
+  function wire(formId, confirmId){
+    var form = document.getElementById(formId);
+    var confirmEl = document.getElementById(confirmId);
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if (!form.checkValidity()){ form.reportValidity(); return; }
+      var payload = Object.fromEntries(new FormData(form).entries());
+      payload.path = (formId === 'waitlist-form') ? 'waitlist' : 'demo';
+      console.log('[Mindscale AI] pending submission', payload);
+      form.closest('.panel').querySelector('.form-state').style.display = 'none';
+      confirmEl.classList.add('show');
+      confirmEl.scrollIntoView({ behavior:'smooth', block:'center' });
+    });
+  }
+  wire('waitlist-form','waitlist-confirm');
+  wire('demo-form','demo-confirm');
+})();
+</script>
+</body>
+</html>
