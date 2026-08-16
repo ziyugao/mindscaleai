@@ -16,7 +16,10 @@
     --orange-dark:#C66E3F; --orange-light:#F5EAD8;
     --yellow-base:#EFE96E; --yellow-light:#F7F4B5; --yellow-dark:#5F5B1C;
     /* Scale factor: 1 at the 1440px Figma design width, shrinks proportionally below it */
-    --vwscale: min(1, calc(100vw / 1440px));
+    /* Canvas scale. Stepped rather than calc(100vw/1440px): dividing a length
+       by a length is CSS Values 4 and silently invalid in most browsers, which
+       made the whole responsive scale a no-op. */
+    --z: 1;
     --navh: 120px;   /* nav height, kept in sync with the spacer below it */
   }
   *{margin:0;padding:0;box-sizing:border-box}
@@ -28,12 +31,20 @@
   body{font-family:'Inter',-apple-system,sans-serif;color:var(--gray-950);-webkit-font-smoothing:antialiased}
   .page{width:1440px;margin:0 auto;overflow:clip;position:relative}
   /* The page is a fixed 1440px canvas. Below that, scale the whole canvas down
-     proportionally so nothing overflows horizontally. `zoom` (unlike transform)
-     also shrinks the laid-out height, so no dead space is left underneath. */
-  @media (max-width:1439px){
-    .page{zoom:var(--vwscale)}
-    .top-section{padding-top:calc(var(--navh) / var(--vwscale))}
-  }
+     so nothing overflows horizontally. `zoom` (unlike transform) also shrinks
+     the laid-out height, so no dead space is left underneath. Each step is
+     roughly viewport / 1440. */
+  @media (max-width:1439px){ :root{--z:.94} }
+  @media (max-width:1280px){ :root{--z:.86} }
+  @media (max-width:1100px){ :root{--z:.74} }
+  @media (max-width:900px) { :root{--z:.60} }
+  @media (max-width:768px) { :root{--z:.52} }
+  @media (max-width:640px) { :root{--z:.43} }
+  @media (max-width:480px) { :root{--z:.32} }
+  @media (max-width:390px) { :root{--z:.26} }
+  .page{zoom:var(--z)}
+  /* Spacer must be expressed in the page's own (zoomed) units */
+  .top-section{padding-top:calc(var(--navh) / var(--z))}
   img{display:block}
   /* Icons are drawn at their own aspect ratio; a square box must never squash them */
   img[src$=".svg"]{object-fit:contain}
@@ -75,8 +86,7 @@
   nav.scrolled .brand span{font-size:19px}
   nav.scrolled .nav-link{height:44px}
   .brand img,.brand span,.nav-link{transition:height .28s cubic-bezier(.22,1,.36,1),font-size .28s cubic-bezier(.22,1,.36,1)}
-  /* Spacer so content does not slide under the fixed bar */
-  .top-section{padding-top:var(--navh)}
+  /* Spacer is set near the top of the sheet, in the page's zoomed units */
   /* --- Hamburger --- */
   .nav-burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;
     padding:0 10px;border:none;background:transparent;cursor:pointer;border-radius:10px}
@@ -100,26 +110,6 @@
     border-top:1px solid var(--gray-200);margin-top:6px}
   .nav-menu-ctas .btn-dark,.nav-menu-ctas .btn-quiet{justify-content:center;width:100%}
 
-  /* --- Nav at narrow widths: section links and quiet CTA move into the menu --- */
-  @media (max-width:1100px){
-    :root{--navh:96px}
-    .nav-links{display:none}
-    .nav-burger{display:flex}
-    nav.scrolled .nav-in{width:min(1440px,100%)}
-    nav{padding:0 16px}
-  }
-  @media (max-width:640px){
-    :root{--navh:76px}
-    .brand img{height:26px}
-    .brand span{font-size:18px}
-    .nav-right .nav-link{display:none}
-    nav{padding:0 12px}
-    nav.scrolled .nav-in{padding:0 8px 0 16px}
-    .nav-right .btn-dark{padding:10px 14px;font-size:13px}
-  }
-  @media (max-width:420px){
-    .nav-right .btn-dark{display:none}   /* burger carries both CTAs */
-  }
   @media (prefers-reduced-motion: reduce){
     .nav-in,.brand img,.brand span,.nav-link{transition:none}
   }
@@ -132,6 +122,28 @@
   .nav-right{display:flex;gap:8px;align-items:center}
   .btn-dark{display:inline-flex;align-items:center;background:var(--blue-dark);color:#fff;font-weight:500;font-size:14px;letter-spacing:-0.084px;padding:8px 16px;border-radius:999px;text-decoration:none;transition:transform .15s ease, box-shadow .15s ease}
   .btn-dark:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(15,24,48,.22)}
+
+  /* --- Nav at narrow widths. Must come AFTER the base nav rules above,
+         otherwise the later base rule re-shows .nav-links. --- */
+  @media (max-width:1100px){
+    :root{--navh:96px}
+    nav .nav-links{display:none}
+    nav .nav-burger{display:flex}
+    nav.scrolled .nav-in{width:min(1440px,100%)}
+    nav{padding:0 16px}
+  }
+  @media (max-width:640px){
+    :root{--navh:76px}
+    .brand img{height:26px}
+    .brand span{font-size:18px}
+    nav .nav-right .nav-link{display:none}
+    nav{padding:0 12px}
+    nav.scrolled .nav-in{padding:0 8px 0 16px}
+    nav .nav-right .btn-dark{padding:10px 14px;font-size:13px}
+  }
+  @media (max-width:420px){
+    nav .nav-right .btn-dark{display:none}   /* burger carries both CTAs */
+  }
 
   /* ============ HERO ============ */
   /* No per-element scaling here: the whole .page canvas scales below 1440. */
@@ -759,7 +771,7 @@
   <style>
     /* Left-aligned, narrower measure per the updated design */
     .platform{display:flex;flex-direction:column;gap:48px;padding:144px 340px;background:#fff;align-items:flex-start;text-align:left}
-    .platform h2{font-weight:600;font-size:48px;line-height:56px;letter-spacing:-0.48px;color:var(--gray-950);width:520px}
+    .platform h2{font-weight:600;font-size:48px;line-height:56px;letter-spacing:-0.48px;color:var(--gray-950);width:460px}
     .platform .quotes{display:flex;flex-direction:column;gap:40px;width:720px;text-align:left}
     .platform .quotes p{font-size:30px;line-height:40px;color:var(--gray-600);font-weight:400}
     .platform .quotes b{font-weight:600;color:var(--blue-base)}
@@ -1006,9 +1018,14 @@
     var sticky = stage.querySelector('.story-sticky');
     function onScroll(){
       var r = stage.getBoundingClientRect();
-      var range = r.height - sticky.offsetHeight;
+      // Measure both in the same space. getBoundingClientRect() is affected by the
+      // page `zoom` but offsetHeight is not; mixing them made `range` negative on
+      // narrow screens, which inverted the phases (success showed before the collage).
+      var stickyH = sticky.getBoundingClientRect().height;
+      var range = r.height - stickyH;
+      if (range <= 0){ stage.setAttribute('data-phase', 0); return; }
       var p = Math.min(Math.max(-r.top / range, 0), 1);
-      var ph = p < 0.5 ? 0 : 1;
+      var ph = p < 0.5 ? 0 : 1;   // 0 = collage, 1 = documentation complete
       stage.setAttribute('data-phase', ph);
     }
     var sio = new IntersectionObserver(function(es){
